@@ -29,9 +29,9 @@ class CPanelLib:
         r = self.session.post(f'{self.domain}{auth_json}/execute/Email/add_pop',
                               data=data, headers=auth_headers)
         if '"errors":null' in r.text:
-            return f'{email}@{email_domain}:{password}'
+            return f'Created: {email}@{email_domain}:{password}'
         else:
-            return f'Couldnt create: {email}@{email_domain}:{password}'
+            return f'Couldnt create: {email}@{email_domain}:{password} | {r.text}'
 
 
 if __name__ == '__main__':
