@@ -15,7 +15,7 @@ class CPanelLib:
         with open('accounts.txt', 'a+') as f:
             f.write(content)
 
-    def create_email(self, email_domain: str, email: str, password: str, amount: int):
+    def create_email(self, save: bool, email_domain: str, email: str, password: str, amount: int):
         '''
         https://documentation.cpanel.net/display/DD/UAPI+Functions+-+Email%3A%3Aadd_pop
         '''
@@ -33,6 +33,8 @@ class CPanelLib:
             r = self.session.post(f'{self.domain}{auth_json}/execute/Email/add_pop',
                                   data=data, headers=auth_headers)
             if '"errors":null' in r.text:
+                if save:
+                    self.save_accounts(f'Created: {email}@{email_domain}:{password}')
                 return f'Created: {email}@{email_domain}:{password}'
             else:
                 return f'Couldnt create: {email}@{email_domain}:{password} | {r.text}'
@@ -40,5 +42,5 @@ class CPanelLib:
 
 if __name__ == '__main__':
     client = CPanelLib('https://example.com:2083/')
-    created_email = client.create_email('domain.org', 'testexample123', 'asupersecurepassword_!"$', 5)
+    created_email = client.create_email(True, 'domain.org', 'testexample123', 'asupersecurepassword_!"$', 5)
     print(created_email)
