@@ -41,6 +41,6 @@ class CPanelLib:
 
 
 if __name__ == '__main__':
-    client = CPanelLib('https://example.com:2083/')
+    client = CPanelLib('https://example.com:2083')
     created_email = client.create_email(True, 'domain.org', 'testexample123', 'asupersecurepassword_!"$', 5)
     print(created_email)
